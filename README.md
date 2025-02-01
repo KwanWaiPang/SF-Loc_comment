@@ -36,9 +36,19 @@ pip install torch-scatter==2.0.9 -f https://data.pyg.org/whl/torch-1.11.0+cu113.
 pip install gdown tqdm numpy==1.25.0 numpy-quaternion==2022.4.3 opencv-python==4.7.0.72 scipy pyparsing matplotlib h5py 
 ~~~
 
-GTSAM应该之前安装过了，试试不安装可不可以
+* 安装第三方库及GTSAM（注意要安装在conda环境下）
+~~~
+cd thirdparty
 
-直接安装sfloc
+git clone https://github.com/yuxuanzhou97/gtsam.git
+cd gtsam
+mkdir build
+cd build
+cmake .. -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=3.10.11
+make python-install
+~~~
+
+* 安装sfloc
 ~~~
 conda activate sfloc
 
