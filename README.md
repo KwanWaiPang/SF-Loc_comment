@@ -29,6 +29,10 @@ git push -u origin main
 
 # 安装配置
 ~~~
+# git clone --recurse-submodules https://github.com/GREAT-WHU/SF-Loc.git
+git clone --recurse-submodules https://github.com/KwanWaiPang/SF-Loc_comment.git
+cd SF-Loc
+
 conda create -n sfloc python=3.10.11
 conda activate sfloc
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
@@ -64,7 +68,7 @@ python setup.py install
 
 ## 运行mapping phase
 
-1. 先运行下面代码，实现多传感器DBA，作者说大概需要90分钟左右来跑完整个序列
+1. 先运行下面代码（注意需要更改数据路径），实现多传感器DBA，作者说大概需要90分钟左右来跑完整个序列
 ~~~
 python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically.
 ~~~
@@ -100,3 +104,4 @@ python scripts/evaluate_map_poses.py
 ~~~
 
 ## 运行Localization phase 
+* 使用[LightGlue](https://github.com/cvg/LightGlue)作为fine association，需要先配置安装
