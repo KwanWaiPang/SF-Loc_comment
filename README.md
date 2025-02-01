@@ -55,6 +55,48 @@ conda activate sfloc
 python setup.py install
 ~~~
 
-# 下载权重模型及数据集
+## 下载权重模型及数据集
 * 权重模型用的就是droid的，此处直接用原本下载好的```/home/gwp/DBA-Fusion/droid.pth```
 * 下载[WHU1023](https://whueducn-my.sharepoint.com/:u:/g/personal/2015301610143_whu_edu_cn/EQX_UOB79AhHlsSI7hb2Jd4B69qd367NCMHOAcFZi7N5Mg?e=gi9NP1)数据
+* onedrive数据下载到服务器请见[博客](https://kwanwaipang.github.io/File/Blogs/Poster/ubuntu%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE.html#onedrive)
+
+# 实验测试
+
+## 运行mapping phase
+
+1. 先运行下面代码，实现多传感器DBA，作者说大概需要90分钟左右来跑完整个序列
+~~~
+python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically.
+~~~
+* 此function应该就是相当于进行mapping的过程，会生成以下三个结果
+    * poses_realtime.txt   IMU poses (both in world frame and ECEF frame) estimated by online multi-sensor DBA.
+    * graph.pkl   Serialized GTSAM factors that store the multi-sensor DBA information.
+    * depth_video.pkl   Dense depths estimated by DBA
+
+2. 然后运行下面代码进行全局图优化
+~~~
+python sf-loc/post_optimization.py --graph results/graph.pkl --result_file results/poses_post.txt
+~~~
+* 会生成结果如下：
+    * poses_post.txt   Estimated IMU poses after global optimization.
+
+3. 接下来再通过下面代码来稀疏化关键帧地图
+~~~
+python sf-loc/sparsify_map.py --imagedir $DATASET/image_undist/cam0 --imagestamp $DATASET/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl
+~~~
+* 会生成结果如下：
+    * map_indices.pkl   Map frame indices (and timestamps), indicating a subset of all DBA keyframes.
+
+4. 运行下面代码来生成lightweight structure frame map.同时通过[VPR-methods-evaluation](https://github.com/gmberton/VPR-methods-evaluation)中所提供的脚本可以很方便的使用不同的VRP方法。
+~~~
+python sf-loc/generate_sf_map.py --imagedir $DATASET/image_undist/cam0 --imagestamp $DATASET/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl --map_file sf_map.pkl
+~~~
+* 生成最终的结果如下：
+    * sf_map.pkl: The structure frame map, which is all you need for re-localization.
+
+5. 大概50MB左右的轻量级地图文件可以获取。运行下面代码可验证全局pose估计的性能
+~~~
+python scripts/evaluate_map_poses.py
+~~~
+
+## 运行Localization phase 
