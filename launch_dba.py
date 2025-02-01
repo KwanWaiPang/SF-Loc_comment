@@ -5,10 +5,10 @@ import subprocess
 # VIO + GNSS
 p = subprocess.Popen("python demo_vio_WHU1023.py" +\
         " --weights=/home/gwp/DBA-Fusion/droid.pth" +\
-        " --imagedir=/WHU1023/image_undist/cam0" +\
-        " --imagestamp=/WHU1023/stamp.txt" +\
-        " --imupath=/WHU1023/imu.txt" +\
-        " --gtpath=/WHU1023/gt.txt" +\
+        " --imagedir=WHU1023/image_undist/cam0" +\
+        " --imagestamp=WHU1023/stamp.txt" +\
+        " --imupath=WHU1023/imu.txt" +\
+        " --gtpath=WHU1023/gt.txt" +\
         " --resultpath=results/poses_realtime.txt" +\
         " --calib=calib/1023.txt" +\
         " --stride=2" +\

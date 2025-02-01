@@ -70,6 +70,8 @@ python setup.py install
 
 1. 先运行下面代码（注意需要更改数据路径），实现多传感器DBA，作者说大概需要90分钟左右来跑完整个序列
 ~~~
+conda activate sfloc
+
 python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically.
 ~~~
 * 此function应该就是相当于进行mapping的过程，会生成以下三个结果
