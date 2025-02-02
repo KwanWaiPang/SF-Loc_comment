@@ -78,41 +78,41 @@ python setup.py install
 ## 运行mapping phase
 
 1. 先运行下面代码（注意需要更改数据路径），实现多传感器DBA，作者说大概需要90分钟左右来跑完整个序列
-~~~
+```Bash
 conda activate sfloc
 
-CUDA_VISIBLE_DEVICES=1 python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically.
-~~~
+CUDA_VISIBLE_DEVICES=0 python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically (相当于写了个sh运行代码，包含了输入的参数~).
+```
 * 此function应该就是相当于进行mapping的过程，会生成以下三个结果
     * poses_realtime.txt   IMU poses (both in world frame and ECEF frame) estimated by online multi-sensor DBA.
     * graph.pkl   Serialized GTSAM factors that store the multi-sensor DBA information.
     * depth_video.pkl   Dense depths estimated by DBA
 
 2. 然后运行下面代码进行全局图优化
-~~~
+```Bash
 python sf-loc/post_optimization.py --graph results/graph.pkl --result_file results/poses_post.txt
-~~~
+```
 * 会生成结果如下：
     * poses_post.txt   Estimated IMU poses after global optimization.
 
 3. 接下来再通过下面代码来稀疏化关键帧地图
-~~~
+```Bash
 python sf-loc/sparsify_map.py --imagedir $DATASET/image_undist/cam0 --imagestamp $DATASET/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl
-~~~
+```
 * 会生成结果如下：
     * map_indices.pkl   Map frame indices (and timestamps), indicating a subset of all DBA keyframes.
 
 4. 运行下面代码来生成lightweight structure frame map.同时通过[VPR-methods-evaluation](https://github.com/gmberton/VPR-methods-evaluation)中所提供的脚本可以很方便的使用不同的VRP方法。
-~~~
+```Bash
 python sf-loc/generate_sf_map.py --imagedir $DATASET/image_undist/cam0 --imagestamp $DATASET/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl --map_file sf_map.pkl
-~~~
+```
 * 生成最终的结果如下：
     * sf_map.pkl: The structure frame map, which is all you need for re-localization.
 
 5. 大概50MB左右的轻量级地图文件可以获取。运行下面代码可验证全局pose估计的性能
-~~~
+```Bash
 python scripts/evaluate_map_poses.py
-~~~
+```
 
 ## 运行Localization phase 
 * 使用[LightGlue](https://github.com/cvg/LightGlue)作为fine association，需要先配置安装
