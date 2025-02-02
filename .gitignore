@@ -145,7 +145,7 @@ dist
 *.egg-info
 *.vscode/
 *.pth
-tests
+# tests
 checkpoints
 datasets
 runs
