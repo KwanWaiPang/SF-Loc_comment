@@ -4,7 +4,7 @@ import subprocess
 
 # VIO + GNSS
 p = subprocess.Popen("python demo_vio_WHU1023.py" +\
-        " --weights=/home/gwp/DBA-Fusion/droid.pth" +\
+        # " --weights=/home/gwp/DBA-Fusion/droid.pth" +\
         " --imagedir=WHU1023/image_undist/cam0" +\
         " --imagestamp=WHU1023/stamp.txt" +\
         " --imupath=WHU1023/imu.txt" +\
@@ -25,7 +25,7 @@ p = subprocess.Popen("python demo_vio_WHU1023.py" +\
         " --skip_edge=[]" +\
         " --save_pkl" +\
         " --use_gnss" +\
-        " --gnsspath=/mnt/e/WHU1023/rtk.txt" +\
+        " --gnsspath=WHU1023/rtk.txt" +\
         " --pklpath=results/depth_video.pkl" +\
         " --graphpath=results/graph.pkl" +\
         " --show_plot" +\
