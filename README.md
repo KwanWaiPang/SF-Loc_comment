@@ -30,6 +30,7 @@ git push -u origin main
 # 安装配置
 ~~~
 # git clone --recurse-submodules https://github.com/GREAT-WHU/SF-Loc.git
+# 注意原版的需要从submodules下载
 git clone --recurse-submodules https://github.com/KwanWaiPang/SF-Loc_comment.git
 cd SF-Loc
 
