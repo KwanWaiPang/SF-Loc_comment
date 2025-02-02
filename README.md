@@ -45,6 +45,7 @@ pip install gdown tqdm numpy==1.25.0 numpy-quaternion==2022.4.3 opencv-python==4
 pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
 pip install torch-scatter -f https://data.pyg.org/whl/torch-2.1.0+cu121.html
 pip install gdown tqdm numpy==1.25.0 numpy-quaternion==2022.4.3 opencv-python==4.7.0.72 scipy pyparsing matplotlib h5py 
+pip install ninja
 
 ~~~
 
