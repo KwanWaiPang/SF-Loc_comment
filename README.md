@@ -28,7 +28,7 @@ git push -u origin main
 ~~~ -->
 
 # 安装配置
-~~~
+```Bash
 # git clone --recurse-submodules https://github.com/GREAT-WHU/SF-Loc.git
 # 注意原版的需要从submodules下载
 git clone --recurse-submodules https://github.com/KwanWaiPang/SF-Loc_comment.git
@@ -47,10 +47,10 @@ pip install torch-scatter -f https://data.pyg.org/whl/torch-2.1.0+cu121.html
 pip install gdown tqdm numpy==1.25.0 numpy-quaternion==2022.4.3 opencv-python==4.7.0.72 scipy pyparsing matplotlib h5py 
 pip install ninja
 
-~~~
+```
 
 * 安装第三方库及GTSAM（注意要安装在conda环境下）
-~~~
+```Bash
 cd thirdparty
 
 git clone https://github.com/yuxuanzhou97/gtsam.git
@@ -59,14 +59,14 @@ mkdir build
 cd build
 cmake .. -DGTSAM_BUILD_PYTHON=1 -DGTSAM_PYTHON_VERSION=3.10.11
 make python-install
-~~~
+```
 
 * 安装sfloc
-~~~
+```Bash
 conda activate sfloc
 
 python setup.py install
-~~~
+```
 
 ## 下载权重模型及数据集
 * 权重模型用的就是droid的，此处直接用原本下载好的```/home/gwp/DBA-Fusion/droid.pth```
