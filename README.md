@@ -72,7 +72,7 @@ python setup.py install
 ~~~
 conda activate sfloc
 
-python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically.
+CUDA_VISIBLE_DEVICES=1 python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically.
 ~~~
 * 此function应该就是相当于进行mapping的过程，会生成以下三个结果
     * poses_realtime.txt   IMU poses (both in world frame and ECEF frame) estimated by online multi-sensor DBA.
