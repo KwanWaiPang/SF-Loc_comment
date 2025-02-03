@@ -160,6 +160,7 @@ python scripts/evaluate_map_poses.py
 ```Bash
 #下载下来并在当前环境下配置
 git clone https://github.com/cvg/LightGlue.git && cd LightGlue
+rm -rf .git
 
 conda activate sfloc
 python -m pip install -e .
