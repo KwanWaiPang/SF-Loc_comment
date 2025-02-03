@@ -46,6 +46,8 @@ pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https
 pip install torch-scatter -f https://data.pyg.org/whl/torch-2.1.0+cu121.html
 pip install gdown tqdm numpy==1.25.0 numpy-quaternion==2022.4.3 opencv-python==4.7.0.72 scipy pyparsing matplotlib h5py 
 pip install ninja
+pip install einops
+pip install scikit-learn
 
 ```
 
@@ -125,15 +127,21 @@ python sf-loc/sparsify_map.py --imagedir WHU1023/image_undist/cam0 --imagestamp 
 
 4. 运行下面代码来生成lightweight structure frame map.同时通过[VPR-methods-evaluation](https://github.com/gmberton/VPR-methods-evaluation)中所提供的脚本可以很方便的使用不同的VRP方法。
 ```Bash
-python sf-loc/generate_sf_map.py --imagedir $DATASET/image_undist/cam0 --imagestamp $DATASET/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl --map_file sf_map.pkl
+python sf-loc/generate_sf_map.py --imagedir WHU1023/image_undist/cam0 --imagestamp WHU1023/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl --map_file sf_map.pkl
 ```
 * 生成最终的结果如下：
     * sf_map.pkl: The structure frame map, which is all you need for re-localization.
+* 其中会调用VPR-methods-evaluation来生成及存储识别的描述子
+<div align="center">
+  <img src="./results/Figs/微信截图_20250203161102.png" width="60%" />
+<figcaption>  
+</figcaption>
+</div>
 
-5. 大概50MB左右的轻量级地图文件可以获取。运行下面代码可验证全局pose估计的性能
+5. 最终大概50MB左右的轻量级地图文件可以获取。运行下面代码可验证全局pose估计的性能
 ```Bash
 python scripts/evaluate_map_poses.py
 ```
 
 ## 运行Localization phase 
-* 使用[LightGlue](https://github.com/cvg/LightGlue)作为fine association，需要先配置安装
+* 使用[LightGlue](https://github.com/cvg/LightGlue)作为fine association(进行特征点的匹配)，需要先配置安装
