@@ -138,10 +138,29 @@ python sf-loc/generate_sf_map.py --imagedir WHU1023/image_undist/cam0 --imagesta
 </figcaption>
 </div>
 
-5. 最终大概50MB左右的轻量级地图文件可以获取。运行下面代码可验证全局pose估计的性能
+5. 最终大概50MB左右的轻量级地图文件可以获取（获取的为49.51MB）。运行下面代码可验证全局pose估计的性能
 ```Bash
 python scripts/evaluate_map_poses.py
 ```
+<div align="center">
+  <img src="./results/Figs/微信截图_20250203162845.png" width="60%" />
+<figcaption> 
+定位精度，分别相对于GT以及rtk的精度 
+</figcaption>
+</div>
 
 ## 运行Localization phase 
-* 使用[LightGlue](https://github.com/cvg/LightGlue)作为fine association(进行特征点的匹配)，需要先配置安装
+* 使用[LightGlue(ICCV 2023)](https://github.com/cvg/LightGlue)作为fine association(进行特征点的匹配)，需要先配置安装
+<div align="center">
+  <img src="https://github.com/cvg/LightGlue/raw/main/assets/easy_hard.jpg" width="60%" />
+<figcaption>  
+</figcaption>
+</div>
+
+```Bash
+#下载下来并在当前环境下配置
+git clone https://github.com/cvg/LightGlue.git && cd LightGlue
+
+conda activate sfloc
+python -m pip install -e .
+```
