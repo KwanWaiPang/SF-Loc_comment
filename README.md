@@ -87,7 +87,7 @@ CUDA_VISIBLE_DEVICES=0 python launch_dba.py  # This would trigger demo_vio_WHU10
     * poses_realtime.txt   IMU poses (both in world frame and ECEF frame) estimated by online multi-sensor DBA.
     * graph.pkl   Serialized GTSAM factors that store the multi-sensor DBA information.
     * depth_video.pkl   Dense depths estimated by DBA
-* 作者在github中提到，这步大概需要90分钟左右来跑完整个序列（但我在A100下测试却远不止一个半小时，也可能是有其他任务在执行影响了速度吧~）。
+* 作者在github中提到，这步大概需要90分钟左右来跑完整个序列（但我在A100下测试却远不止一个半小时，都21个小时了，也可能是有其他任务在执行影响了速度吧~）。
 <div align="center">
   <img src="./results/Figs/微信截图_20250203140629.png" width="60%" />
 <figcaption>  
@@ -111,10 +111,17 @@ python sf-loc/post_optimization.py --graph results/graph.pkl --result_file resul
 
 3. 接下来再通过下面代码来稀疏化关键帧地图
 ```Bash
-python sf-loc/sparsify_map.py --imagedir $DATASET/image_undist/cam0 --imagestamp $DATASET/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl
+python sf-loc/sparsify_map.py --imagedir WHU1023/image_undist/cam0 --imagestamp WHU1023/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl
 ```
 * 会生成结果如下：
     * map_indices.pkl   Map frame indices (and timestamps), indicating a subset of all DBA keyframes.
+    * map_stamps.txt    应该是记录每个map的时间戳
+* 获取的应该就是稀疏化后的地图（关键帧）
+<div align="center">
+  <img src="./results/Figs/微信截图_20250203150439.png" width="60%" />
+<figcaption>  
+</figcaption>
+</div>
 
 4. 运行下面代码来生成lightweight structure frame map.同时通过[VPR-methods-evaluation](https://github.com/gmberton/VPR-methods-evaluation)中所提供的脚本可以很方便的使用不同的VRP方法。
 ```Bash
