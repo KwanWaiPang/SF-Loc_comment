@@ -159,3 +159,4 @@ figures/*.pdf
 WHU1023.zip
 WHU1023/
 results/*.pkl
+*.pkl

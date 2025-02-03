@@ -102,6 +102,12 @@ python sf-loc/post_optimization.py --graph results/graph.pkl --result_file resul
 ```
 * 会生成结果如下：
     * poses_post.txt   Estimated IMU poses after global optimization.
+<div align="center">
+  <img src="./results/Figs/微信截图_20250203143125.png" width="60%" />
+<figcaption>  
+</figcaption>
+</div>
+
 
 3. 接下来再通过下面代码来稀疏化关键帧地图
 ```Bash
