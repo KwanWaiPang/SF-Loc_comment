@@ -145,16 +145,32 @@ python scripts/evaluate_map_poses.py
 <div align="center">
   <img src="./results/Figs/微信截图_20250203162845.png" width="60%" />
 <figcaption> 
-定位精度，分别相对于GT以及rtk的精度 
+定位精度，实时的定位精度以及全局优化后的定位精度
+</figcaption>
+</div>
+
+
+<div align="center">
+  <img src="./mapping_error.svg" width="60%" />
+<figcaption>  
 </figcaption>
 </div>
 
 ## 运行Localization phase 
 * 使用[LightGlue(ICCV 2023)](https://github.com/cvg/LightGlue)作为fine association(进行特征点的匹配)，需要先配置安装
 <div align="center">
-  <img src="https://github.com/cvg/LightGlue/raw/main/assets/easy_hard.jpg" width="60%" />
-<figcaption>  
-</figcaption>
+  <table style="border: none; background-color: transparent;">
+    <tr>
+      <td style="width: 50%; border: none; padding: 0.01; background-color: transparent; vertical-align: middle;">
+        <img src="https://github.com/cvg/LightGlue/raw/main/assets/easy_hard.jpg" width="100%" />
+      </td>
+      <td style="width: 50%; border: none; padding: 0.01; background-color: transparent; vertical-align: middle;">
+        <img src="https://github.com/cvg/LightGlue/raw/main/assets/teaser.svg" width="100%" />
+      </td>
+    </tr>
+  </table>
+  <figcaption>
+  </figcaption>
 </div>
 
 ```Bash
