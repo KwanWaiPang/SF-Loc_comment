@@ -28,7 +28,7 @@ git push -u origin main
 ~~~ -->
 
 # 安装配置
-```Bash
+```bash
 # git clone --recurse-submodules https://github.com/GREAT-WHU/SF-Loc.git
 # 注意原版的需要从submodules下载
 git clone --recurse-submodules https://github.com/KwanWaiPang/SF-Loc_comment.git
@@ -52,7 +52,7 @@ pip install scikit-learn
 ```
 
 * 安装第三方库及GTSAM（注意要安装在conda环境下）
-```Bash
+```bash
 cd thirdparty
 
 git clone https://github.com/yuxuanzhou97/gtsam.git
@@ -64,7 +64,7 @@ make python-install
 ```
 
 * 安装sfloc
-```Bash
+```bash
 conda activate sfloc
 
 python setup.py install
@@ -80,7 +80,7 @@ python setup.py install
 ## 运行mapping phase
 
 1. 先运行下面代码（注意需要更改数据路径），实现多传感器DBA。
-```Bash
+```bash
 conda activate sfloc
 
 CUDA_VISIBLE_DEVICES=0 python launch_dba.py  # This would trigger demo_vio_WHU1023.py automatically (相当于写了个sh运行代码，包含了输入的参数~).
@@ -99,7 +99,7 @@ CUDA_VISIBLE_DEVICES=0 python launch_dba.py  # This would trigger demo_vio_WHU10
 * 此步应该就是进行定位、获取GTSAM的因子图以及DBA生成的Depth map
 
 2. 然后运行下面代码进行全局图优化
-```Bash
+```bash
 python sf-loc/post_optimization.py --graph results/graph.pkl --result_file results/poses_post.txt
 ```
 * 会生成结果如下：
@@ -112,7 +112,7 @@ python sf-loc/post_optimization.py --graph results/graph.pkl --result_file resul
 
 
 3. 接下来再通过下面代码来稀疏化关键帧地图
-```Bash
+```bash
 python sf-loc/sparsify_map.py --imagedir WHU1023/image_undist/cam0 --imagestamp WHU1023/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl
 ```
 * 会生成结果如下：
@@ -126,7 +126,7 @@ python sf-loc/sparsify_map.py --imagedir WHU1023/image_undist/cam0 --imagestamp 
 </div>
 
 4. 运行下面代码来生成lightweight structure frame map.同时通过[VPR-methods-evaluation](https://github.com/gmberton/VPR-methods-evaluation)中所提供的脚本可以很方便的使用不同的VRP方法。
-```Bash
+```bash
 python sf-loc/generate_sf_map.py --imagedir WHU1023/image_undist/cam0 --imagestamp WHU1023/stamp.txt --depth_video results/depth_video.pkl --poses_post results/poses_post.txt --calib calib/1023.txt --map_indices results/map_indices.pkl --map_file sf_map.pkl
 ```
 * 生成最终的结果如下：
@@ -139,7 +139,7 @@ python sf-loc/generate_sf_map.py --imagedir WHU1023/image_undist/cam0 --imagesta
 </div>
 
 5. 最终大概50MB左右的轻量级地图文件可以获取（获取的为49.51MB）。运行下面代码可验证全局pose估计的性能
-```Bash
+```bash
 python scripts/evaluate_map_poses.py
 ```
 <div align="center">
@@ -173,11 +173,17 @@ python scripts/evaluate_map_poses.py
   </figcaption>
 </div>
 
-```Bash
+```bash
 #下载下来并在当前环境下配置
 git clone https://github.com/cvg/LightGlue.git && cd LightGlue
 rm -rf .git
 
 conda activate sfloc
 python -m pip install -e .
+```
+1. 下载[WHU0412](https://whueducn-my.sharepoint.com/:u:/g/personal/2015301610143_whu_edu_cn/EfyUSrS01jxFgFJFLmKlsuoBci59yljVbOm2A2LnVXi9dA?e=YJNxhv)数据集
+2. 运行下面命名来验证定位性能
+```bash
+export DATASET_USER=WHU0412
+python sf-loc/localization_sf_map.py --imagedir $DATASET_USER/image_undist/cam0 --map_file sf_map.pkl  --calib calib/0412.txt --map_extrinsic calib/1023.yaml --user_extrinsic calib/0412.yaml --user_odo_file $DATASET_USER/odo.txt --enable_user_gt --user_gt_file $DATASET_USER/gt.txt --enable_map_gt --map_gt_file $DATASET_MAP/gt.txt
 ```
