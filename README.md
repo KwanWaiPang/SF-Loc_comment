@@ -48,6 +48,7 @@ pip install gdown tqdm numpy==1.25.0 numpy-quaternion==2022.4.3 opencv-python==4
 pip install ninja
 pip install einops
 pip install scikit-learn
+pip install open3d
 
 ```
 
@@ -182,7 +183,7 @@ conda activate sfloc
 python -m pip install -e .
 ```
 1. 下载[WHU0412](https://whueducn-my.sharepoint.com/:u:/g/personal/2015301610143_whu_edu_cn/EfyUSrS01jxFgFJFLmKlsuoBci59yljVbOm2A2LnVXi9dA?e=YJNxhv)数据集
-2. 运行下面命名来验证定位性能
+2. 运行下面命名来验证定位性能(会导入前面生成的sf_map.pkl)
 ```bash
 export DATASET_USER=WHU0412
 python sf-loc/localization_sf_map.py --imagedir $DATASET_USER/image_undist/cam0 --map_file sf_map.pkl  --calib calib/0412.txt --map_extrinsic calib/1023.yaml --user_extrinsic calib/0412.yaml --user_odo_file $DATASET_USER/odo.txt --enable_user_gt --user_gt_file $DATASET_USER/gt.txt --enable_map_gt --map_gt_file $DATASET_MAP/gt.txt
