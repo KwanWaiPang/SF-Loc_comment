@@ -87,7 +87,14 @@ CUDA_VISIBLE_DEVICES=0 python launch_dba.py  # This would trigger demo_vio_WHU10
     * poses_realtime.txt   IMU poses (both in world frame and ECEF frame) estimated by online multi-sensor DBA.
     * graph.pkl   Serialized GTSAM factors that store the multi-sensor DBA information.
     * depth_video.pkl   Dense depths estimated by DBA
-* 作者在github中提到，这步大概需要90分钟左右来跑完整个序列，应该就是进行定位、获取GTSAM的因子图以及DBA生成的Depth map
+* 作者在github中提到，这步大概需要90分钟左右来跑完整个序列（但我在A100下测试却远不止一个半小时，也可能是有其他任务在执行影响了速度吧~）。
+<div align="center">
+  <img src="./results/Figs/微信截图_20250203140629.png" width="60%" />
+<figcaption>  
+</figcaption>
+</div>
+
+* 此步应该就是进行定位、获取GTSAM的因子图以及DBA生成的Depth map
 
 2. 然后运行下面代码进行全局图优化
 ```Bash
