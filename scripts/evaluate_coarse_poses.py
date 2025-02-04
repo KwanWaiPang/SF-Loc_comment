@@ -29,7 +29,7 @@ ti0i0i1 = np.array([0.0,0.47,-0.04])
 Ti0i1 = np.eye(4,4); Ti0i1[0:3,0:3] = Ri0i1; Ti0i1[0:3,3] = np.array([0.0,0.47,-0.04])
 Ten0 = None
 is_ref_set  = False
-fp = open('/mnt/e/WHU1023/WHU0412/gt.txt','rt')
+fp = open('WHU0412/WHU0412/gt.txt','rt')
 while True:
     line = fp.readline().strip()
     if line == '':break
@@ -66,9 +66,10 @@ while True:
     Tn0i = np.matmul(np.linalg.inv(Ten0),Tei1)
     all_data[sod]['T'] = Tn0i
 
-dd = np.loadtxt('results/result_coarse.txt')
+dd = np.loadtxt('results/result_coarse.txt') #获取估算的结果～
 t_series = []
 err_series = []
+x_series = []
 y_series = []
 for i in range(dd.shape[0]):
     tt = dd[i,0]
@@ -80,7 +81,10 @@ for i in range(dd.shape[0]):
             dxyz[2]-all_data[tt]['Z0']]
     denu = trans.cart2enu([all_data[tt]['X0'],all_data[tt]['Y0'],all_data[tt]['Z0']],dxyz)
     err_series.append(np.linalg.norm(denu[:2]))
+    x_series.append(denu[0])
+    y_series.append(denu[1])
 error_coarse = np.array([t_series,err_series]).T
+dd = np.array([t_series,x_series,y_series]).T
 
 error_in = error_coarse[error_coarse[:,1]<100,1]
 print('& \makecell[c]{%.2f\\%%} & \makecell[c]{%.2f\\%%} & \makecell[c]{%.2f\\%%} & \makecell[c]{%.2f} \\\\'%(\
@@ -88,7 +92,15 @@ np.sum(np.array(error_coarse[:,1])<5.0) /error_coarse.shape[0]*100,\
 np.sum(np.array(error_coarse[:,1])<10.0)/error_coarse.shape[0]*100,\
 np.sum(np.array(error_coarse[:,1])<20.0)/error_coarse.shape[0]*100,\
 np.linalg.norm(error_in)/np.sqrt(error_in.shape[0])))
-plt.plot(error_coarse[:,0],error_coarse[:,1],marker='*')
+# plt.plot(error_coarse[:,0],error_coarse[:,1],marker='*')
+
+plt.figure('1',figsize = [4,2.5])
+plt.plot(dd[:,0],dd[:,1],c='r',linewidth=0.1,marker='*',markersize=1.0,label='SF-Loc (x)')
+plt.plot(dd[:,0],dd[:,2],c='g',linewidth=0.1,marker='*',markersize=1.0,label='SF-Loc (y)')
+# plt.text(0.05,0.85,'SF-Loc',transform = plt.gca().transAxes,bbox=props);plt.ylim([-5,5]);plt.ylabel('Error [m]',labelpad=0)
+plt.tight_layout(pad=0.1)
+
+plt.savefig('mapping_error.svg')
 
 plt.show()
 

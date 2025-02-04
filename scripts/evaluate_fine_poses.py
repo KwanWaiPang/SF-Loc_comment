@@ -29,7 +29,7 @@ ti0i0i1 = np.array([0.0,0.47,-0.04])
 Ti0i1 = np.eye(4,4); Ti0i1[0:3,0:3] = Ri0i1; Ti0i1[0:3,3] = np.array([0.0,0.47,-0.04])
 Ten0 = None
 is_ref_set  = False
-fp = open('/mnt/e/WHU1023/WHU0412/gt.txt','rt')
+fp = open('WHU0412/WHU0412/gt.txt','rt')
 while True:
     line = fp.readline().strip()
     if line == '':break
@@ -84,8 +84,8 @@ for i in range(dd.shape[0]):
 dd = np.array([t_series,x_series,y_series]).T
 
 plt.figure('1',figsize = [4,2.5])
-plt.plot(dd[:,0],dd[:,1],c='r',linewidth=0.1,marker='*',markersize=1.0,label='SF-Loc (1)')
-plt.plot(dd[:,0],dd[:,2],c='g',linewidth=0.1,marker='*',markersize=1.0)
+plt.plot(dd[:,0],dd[:,1],c='r',linewidth=0.1,marker='*',markersize=1.0,label='SF-Loc (x)')
+plt.plot(dd[:,0],dd[:,2],c='g',linewidth=0.1,marker='*',markersize=1.0,label='SF-Loc (y)')
 plt.text(0.05,0.85,'SF-Loc',transform = plt.gca().transAxes,bbox=props);plt.ylim([-5,5]);plt.ylabel('Error [m]',labelpad=0)
 plt.tight_layout(pad=0.1)
 
@@ -95,5 +95,6 @@ print('SF-Loc & %.2f\\%% & %.2f\\%% & %.2f\\%% & %.3f\\\\' % (np.sum(np.linalg.n
                           np.sum(np.linalg.norm(dd[:,1:3],axis=1)<1.0)/dd.shape[0]*100,
                           np.sum(np.linalg.norm(dd[:,1:3],axis=1)<5.0)/dd.shape[0]*100,rmse))
 
+plt.savefig('fine_error.svg')
 plt.show()
 

@@ -126,7 +126,8 @@ if __name__ == '__main__':
     custom_transform = transforms.Compose(transformations)
     if ENABLE_FINE_LOCALIZATION:
         from lightglue import LightGlue, SuperPoint, DISK
-        from lightglue.utils import load_image, rbd, load_image_undist, numpy_image_to_torch
+        # from lightglue.utils import load_image, rbd, load_image_undist, numpy_image_to_torch
+        from lightglue.utils import load_image, rbd, numpy_image_to_torch
         from lightglue import viz2d
         torch.set_grad_enabled(False);
         extractor = SuperPoint(max_num_keypoints=2048).eval().to(device)  # load the extractor
