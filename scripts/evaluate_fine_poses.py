@@ -86,7 +86,20 @@ dd = np.array([t_series,x_series,y_series]).T
 plt.figure('1',figsize = [4,2.5])
 plt.plot(dd[:,0],dd[:,1],c='r',linewidth=0.1,marker='*',markersize=1.0,label='SF-Loc (x)')
 plt.plot(dd[:,0],dd[:,2],c='g',linewidth=0.1,marker='*',markersize=1.0,label='SF-Loc (y)')
-plt.text(0.05,0.85,'SF-Loc',transform = plt.gca().transAxes,bbox=props);plt.ylim([-5,5]);plt.ylabel('Error [m]',labelpad=0)
+# plt.text(0.05,0.85,'SF-Loc',transform = plt.gca().transAxes,bbox=props);plt.ylim([-5,5]);plt.ylabel('Error [m]',labelpad=0)
+# 画出label
+# 设置 bbox 的样式
+props = dict(boxstyle='round', facecolor='white', alpha=0.5)
+# 在图中添加 label，并设置 bbox
+# plt.text(0.05, 0.85, 'SF-Loc', transform=plt.gca().transAxes, bbox=props)
+plt.legend()#添加图例
+# 设置 y 轴标签
+plt.ylabel('Error [m]', labelpad=0)
+plt.xlabel('Time')
+
+# 设置 y 轴范围
+plt.ylim([-5, 5])
+# 调整布局
 plt.tight_layout(pad=0.1)
 
 mask = np.linalg.norm(dd[:,1:3],axis=1)<5.0
